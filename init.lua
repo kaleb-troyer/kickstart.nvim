@@ -20,6 +20,14 @@ vim.api.nvim_create_autocmd('VimLeavePre', {
 vim.o.number = true
 vim.o.relativenumber = false
 
+-- Colors
+vim.opt.termguicolors = true
+
+-- Tab Spacing
+vim.opt.tabstop = 5
+vim.opt.shiftwidth = 5
+vim.opt.expandtab = true
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
 
@@ -36,6 +44,9 @@ end)
 
 -- Enable break indent
 vim.o.breakindent = true
+
+-- Wordwrap 
+vim.opt.wrap = false
 
 -- Save undo history
 vim.o.undofile = true
@@ -128,8 +139,6 @@ rtp:prepend(lazypath)
 -- [[ Configure and install plugins ]]
 require('lazy').setup({
 
-  -- consider adding... alpha, autopairs, colorizer, comment, devicons, lazygit, lualine, neoscroll, completions, none-ls
-
   -- Change the name of the colorscheme plugin below, and then
   -- change the command in the config to whatever the name of that colorscheme is.
   --
@@ -140,14 +149,27 @@ require('lazy').setup({
 
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
-  require 'plugins.nvim-lspconfig', -- language server protocol configuration
-  require 'plugins.nvim-treesitter', -- highlighting, editing, and navigating code
-  require 'plugins.telescope', -- popular fuzzy finder
-  require 'plugins.neo-tree', -- sidebar file explorer
-  require 'plugins.blink', -- autocompletion
-  require 'plugins.conform', -- autoformatting
-  require 'plugins.lazydev', -- LSP plugins
-  require 'plugins.chameleon', -- match kitty background to nvim
+  -- notify, alpha, lualine, and completions need further configuring
+  require 'plugins.nvim-lspconfig',   -- language server protocol configuration
+  require 'plugins.nvim-treesitter',  -- highlighting, editing, and navigating code
+  -- require 'plugins.nvim-comment',  -- fast line commenting
+  require 'plugins.nvim-notify',      -- clean notification engine
+  require 'plugins.telescope',        -- popular fuzzy finder
+  require 'plugins.neo-tree',         -- sidebar file explorer
+  require 'plugins.blink',            -- autocompletion
+  -- require 'plugins.completions',   -- autocompletion
+  -- require 'plugins.conform',       -- autoformatting
+  require 'plugins.neoscroll',        -- smooth scrolling animations
+  require 'plugins.lualine',          -- pretty, configurable status bar
+  require 'plugins.alpha',            -- configurable welcome page
+  require 'plugins.lazydev',          -- LSP plugins
+  require 'plugins.chameleon',        -- match kitty background to nvim
+  require 'plugins.autopairs',        -- Autocomplete [], {}, (), etc.
+  -- require 'plugins.gitsigns',      -- Shows git changes in the file gutter
+  require 'plugins.indent_line',      -- Adds vertical indentation guides 
+  -- require 'plugins.lint',          -- Highlights errors, style issues, warnings
+  -- require 'plugins.which-key',     -- Informational popup while using keybindings
+
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
