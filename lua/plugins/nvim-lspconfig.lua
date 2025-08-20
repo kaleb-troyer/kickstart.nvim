@@ -17,13 +17,11 @@ return {
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
     },
+
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          -- NOTE: Remember that Lua is a real programming language, and as such it is possible
-          -- to define small helper and utility functions so you don't have to repeat yourself.
-          --
           -- In this case, we create a function that lets us more easily define mappings specific
           -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
@@ -167,18 +165,11 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
         clangd = {},
-        -- gopls = {},
-        pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+
+        -- pylsp = {},
+        -- pyright = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -189,12 +180,25 @@ return {
               completion = {
                 callSnippet = 'Replace',
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
             },
           },
         },
       }
+
+      require('lspconfig').clangd.setup{
+        cmd = { "clangd", "--compile-commands-dir=build",
+                "--query-driver=/usr/bin/clang++,/usr/bin/g++,/usr/bin/*-g++" },
+        root_dir = require('lspconfig.util').root_pattern(
+          'compile_commands.json', '.clangd', '.git')
+      }
+
+      -- require('lspconfig').pylsp.setup{
+      --   pylsp = {
+      --     plugins = {
+      --       pycodestyle = { enabled = false },
+      --     }
+      --   }
+      -- }
 
       -- Ensure the servers and tools above are installed
       --
@@ -232,3 +236,4 @@ return {
     end,
   },
 }
+

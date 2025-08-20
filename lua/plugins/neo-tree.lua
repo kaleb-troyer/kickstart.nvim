@@ -21,5 +21,9 @@ return {
         },
       },
     },
+    window = {
+      width = 25,
+      auto_expand_width = false,
+    },
   },
 }
